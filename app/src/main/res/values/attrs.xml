@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- topHeader 自定义的属性 -->
+    <declare-styleable name="PandaTopHeader">
+        <!-- 左边文字的样式,文字与图片只能二选一或者都不显示 -->
+        <attr name="left_text" format="string" />
+        <attr name="left_textColor" format="color|reference"/>
+        <attr name="left_textSize" format="dimension" />
+        <attr name="left_textDrawable" format="reference" />
+        <!-- 左边图片按钮的资源文件,文字与图片只能二选一或者都不显示 -->
+        <attr name="left_resource" format="reference" />
+
+        <!-- 标题文字的样式,文字与图片只能二选一或者都不显示 -->
+        <attr name="title_text" format="string" />
+        <attr name="title_textColor" format="color|reference"/>
+        <attr name="title_textSize" format="dimension" />
+        <!-- 标题图片的资源文件,文字与图片只能二选一或者都不显示 -->
+        <attr name="title_resource" format="reference" />
+
+        <!-- 右边文字的样式,文字与图片只能二选一或者都不显示 -->
+        <attr name="right_text" format="string" />
+        <attr name="right_textColor" format="color|reference"/>
+        <attr name="right_textSize" format="dimension" />
+        <!-- 右边图片按钮的资源文件,文字与图片只能二选一或者都不显示 -->
+        <attr name="right_resource" format="reference" />
+    </declare-styleable>
+</resources>

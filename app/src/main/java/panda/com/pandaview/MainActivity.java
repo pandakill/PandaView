@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import panda.com.pandaview.view.PandaTopHeader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +29,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        PandaTopHeader header = (PandaTopHeader) findViewById(R.id.header1);
+        header.setLeftButtonId(R.id.button_back);
+
+        header.setButtonLeftVisible(View.GONE);
+
+        PandaTopHeader.OnClickHeaderListener listener = new PandaTopHeader.OnClickHeaderListener() {
+            @Override
+            public void onClick(View view, int position, int viewType) {
+                if (position == PandaTopHeader.HEADER_LEFT) {
+                    Toast.makeText(MainActivity.this, "点击左侧", Toast.LENGTH_SHORT).show();
+                } else if (position == PandaTopHeader.HEADER_RIGHT) {
+                    Toast.makeText(MainActivity.this, "点击右侧", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        header.setOnClickHeaderListener(listener);
+        header.setRightButtonBackground(getResources().getDrawable(R.drawable.header_button_selector));
     }
 
     @Override

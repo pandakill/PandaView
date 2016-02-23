@@ -2,11 +2,15 @@
 <resources>
     <!-- topHeader 自定义的属性 -->
     <declare-styleable name="PandaTopHeader">
+        <!-- 左右的边距,对称 -->
+        <attr name="left_right_padding" format="dimension" />
+
         <!-- 左边文字的样式,文字与图片只能二选一或者都不显示 -->
         <attr name="left_text" format="string" />
         <attr name="left_textColor" format="color|reference"/>
         <attr name="left_textSize" format="dimension" />
         <attr name="left_textDrawable" format="reference" />
+        <attr name="left_textDrawablePadding" format="dimension" />
         <!-- 左边图片按钮的资源文件,文字与图片只能二选一或者都不显示 -->
         <attr name="left_resource" format="reference" />
 
@@ -21,6 +25,8 @@
         <attr name="right_text" format="string" />
         <attr name="right_textColor" format="color|reference"/>
         <attr name="right_textSize" format="dimension" />
+        <attr name="right_textDrawable" format="reference" />
+        <attr name="right_textDrawablePadding" format="dimension" />
         <!-- 右边图片按钮的资源文件,文字与图片只能二选一或者都不显示 -->
         <attr name="right_resource" format="reference" />
     </declare-styleable>

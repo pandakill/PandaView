@@ -316,4 +316,24 @@ public class PandaTopHeader extends RelativeLayout {
             mImgBtnRight.setVisibility(visible);
         }
     }
+
+    public void setHeaderTitle(String title) {
+        mTvTitle.setText(title);
+    }
+
+    public void setButtonLeftEnable(boolean enable) {
+        if (mBtnLeftType == TYPE_TEXTVIEW) {
+            mBtnLeft.setEnabled(enable);
+        } else if (mBtnLeftType == TYPE_IMAGEVIEW) {
+            mImgBtnLeft.setEnabled(enable);
+        }
+    }
+
+    public void setButtonRightEnable(boolean enable) {
+        if (mBtnRightType == TYPE_TEXTVIEW) {
+            mBtnRight.setEnabled(enable);
+        } else if (mBtnRightType == TYPE_IMAGEVIEW) {
+            mImgBtnRight.setEnabled(enable);
+        }
+    }
 }

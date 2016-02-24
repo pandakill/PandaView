@@ -66,7 +66,9 @@ public class PandaTopHeader extends RelativeLayout {
     private int mTvTitleTextColor;
     private float mTvTitleTextSize;
     private Drawable mTvTitleResource;
+    private Drawable mBtnRightDrawable;
     private String mTvTitleText;
+    private float mBtnRightDrawablePadding;
 
     private int mBtnRightTextColor;
     private float mBtnRightTextSize;
@@ -99,6 +101,8 @@ public class PandaTopHeader extends RelativeLayout {
             mTvTitleTextSize = array.getDimension(R.styleable.PandaTopHeader_title_textSize, -1);
             mTvTitleResource = array.getDrawable(R.styleable.PandaTopHeader_title_resource);
             mTvTitleText = array.getString(R.styleable.PandaTopHeader_title_text);
+            mBtnRightDrawable = array.getDrawable(R.styleable.PandaTopHeader_right_textDrawable);
+            mBtnRightDrawablePadding = array.getDimension(R.styleable.PandaTopHeader_right_textDrawablePadding, -1);
 
             mBtnRightTextColor = array.getColor(R.styleable.PandaTopHeader_right_textColor, -1);
             mBtnRightTextSize = array.getDimension(R.styleable.PandaTopHeader_right_textSize, -1);
@@ -208,6 +212,11 @@ public class PandaTopHeader extends RelativeLayout {
             });
             addView(mImgBtnRight, rightParams);
         } else {
+            if (mBtnRightDrawable != null) {
+                mBtnRightDrawable.setBounds(0, 0, mBtnRightDrawable.getMinimumWidth(), mBtnRightDrawable.getMinimumHeight());
+                mBtnRight.setCompoundDrawables(null, null, mBtnRightDrawable, null);
+                mBtnRight.setCompoundDrawablePadding((int) mBtnRightDrawablePadding);
+            }
             mBtnRightType = TYPE_TEXTVIEW;
             mBtnRight.setPadding((int) mPadding, 0, (int) mPadding, 0);
             mBtnRight.setOnClickListener(new OnClickListener() {

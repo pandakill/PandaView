@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -135,11 +136,11 @@ public class PandaTopHeader extends RelativeLayout {
         LayoutParams leftParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         leftParams.addRule(ALIGN_PARENT_LEFT, TRUE);
         leftParams.addRule(CENTER_VERTICAL, TRUE);
-        leftParams.setMargins((int) mPadding, 0, 0, 0);
         if (mBtnLeftResource != null) {
             mImgBtnLeft.setImageDrawable(mBtnLeftResource);
             addView(mImgBtnLeft, leftParams);
             mBtnLeftType = TYPE_IMAGEVIEW;
+            mImgBtnLeft.setPadding((int) mPadding, 0, (int) mPadding, 0);
             mImgBtnLeft.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -154,6 +155,7 @@ public class PandaTopHeader extends RelativeLayout {
                 mBtnLeft.setCompoundDrawables(mBtnLeftDrawable, null, null, null);
                 mBtnLeft.setCompoundDrawablePadding((int) mBtnLeftDrawablePadding);
             }
+            mBtnLeft.setPadding((int) mPadding, 0, (int) mPadding, 0);
             mBtnLeft.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,10 +194,10 @@ public class PandaTopHeader extends RelativeLayout {
         LayoutParams rightParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         rightParams.addRule(ALIGN_PARENT_RIGHT, TRUE);
         rightParams.addRule(CENTER_VERTICAL, TRUE);
-        rightParams.setMargins(0, 0, (int) mPadding, 0);
         if (mBtnRightResource != null) {
             mImgBtnRight.setImageDrawable(mBtnRightResource);
             mBtnRightType = TYPE_IMAGEVIEW;
+            mImgBtnRight.setPadding((int) mPadding, 0, (int) mPadding, 0);
             mImgBtnRight.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -207,6 +209,7 @@ public class PandaTopHeader extends RelativeLayout {
             addView(mImgBtnRight, rightParams);
         } else {
             mBtnRightType = TYPE_TEXTVIEW;
+            mBtnRight.setPadding((int) mPadding, 0, (int) mPadding, 0);
             mBtnRight.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -334,6 +337,29 @@ public class PandaTopHeader extends RelativeLayout {
             mBtnRight.setEnabled(enable);
         } else if (mBtnRightType == TYPE_IMAGEVIEW) {
             mImgBtnRight.setEnabled(enable);
+        }
+    }
+
+    /**
+     * 设置标题栏属性
+     *
+     * @param singleLine bool值,是否显示为单行
+     * @param maxEms 显示的最大字符数,如果是-1，则默认
+     * @param minEms 显示的最小字符数,如果是-1,则默认
+     * @param where 超出最大字符数,从何处截断,当#where为null时,默认
+     */
+    public void setTitleTextAttribute(boolean singleLine, int maxEms, int minEms, TextUtils.TruncateAt where) {
+        if (singleLine) {
+            mTvTitle.setSingleLine();
+        }
+        if (maxEms != -1) {
+            mTvTitle.setMaxEms(maxEms);
+        }
+        if (minEms != -1) {
+            mTvTitle.setMinEms(minEms);
+        }
+        if (where != null) {
+            mTvTitle.setEllipsize(where);
         }
     }
 }

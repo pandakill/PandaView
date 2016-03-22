@@ -7,7 +7,8 @@
 
         <!-- 左边文字的样式,文字与图片只能二选一或者都不显示 -->
         <attr name="left_text" format="string" />
-        <attr name="left_textColor" format="color|reference"/>
+        <attr name="left_textColor" format="color|reference" />
+        <attr name="left_textColorStateList" format="integer" />
         <attr name="left_textSize" format="dimension" />
         <attr name="left_textDrawable" format="reference" />
         <attr name="left_textDrawablePadding" format="dimension" />
@@ -17,6 +18,7 @@
         <!-- 标题文字的样式,文字与图片只能二选一或者都不显示 -->
         <attr name="title_text" format="string" />
         <attr name="title_textColor" format="color|reference"/>
+        <attr name="title_textColorStateList" format="integer" />
         <attr name="title_textSize" format="dimension" />
         <!-- 标题图片的资源文件,文字与图片只能二选一或者都不显示 -->
         <attr name="title_resource" format="reference" />
@@ -24,6 +26,7 @@
         <!-- 右边文字的样式,文字与图片只能二选一或者都不显示 -->
         <attr name="right_text" format="string" />
         <attr name="right_textColor" format="color|reference"/>
+        <attr name="right_textColorStateList" format="integer" />
         <attr name="right_textSize" format="dimension" />
         <attr name="right_textDrawable" format="reference" />
         <attr name="right_textDrawablePadding" format="dimension" />

@@ -2,6 +2,7 @@ package panda.com.pandaview.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
@@ -60,6 +61,7 @@ public class PandaTopHeader extends RelativeLayout {
     private float mPadding;
 
     private int mBtnLeftTextColor;
+    private ColorStateList mBtnLeftTextColorStateList;
     private float mBtnLeftTextSize;
     private Drawable mBtnLeftResource;
     private Drawable mBtnLeftDrawable;
@@ -67,6 +69,7 @@ public class PandaTopHeader extends RelativeLayout {
     private float mBtnLeftDrawablePadding;
 
     private int mTvTitleTextColor;
+    private ColorStateList mTvTitleTextColorStateList;
     private float mTvTitleTextSize;
     private Drawable mTvTitleResource;
     private Drawable mBtnRightDrawable;
@@ -74,6 +77,7 @@ public class PandaTopHeader extends RelativeLayout {
     private float mBtnRightDrawablePadding;
 
     private int mBtnRightTextColor;
+    private ColorStateList mBtnRightTextColorStateList;
     private float mBtnRightTextSize;
     private Drawable mBtnRightResource;
     private String mBtnRightText;
@@ -93,7 +97,9 @@ public class PandaTopHeader extends RelativeLayout {
         if (array != null) {
             mPadding = array.getDimension(R.styleable.PandaTopHeader_left_right_padding, -1);
 
+
             mBtnLeftTextColor = array.getColor(R.styleable.PandaTopHeader_left_textColor, -1);
+            mBtnLeftTextColorStateList = array.getColorStateList(R.styleable.PandaTopHeader_left_textColorStateList);
             mBtnLeftTextSize = array.getDimension(R.styleable.PandaTopHeader_left_textSize, -1);
             mBtnLeftResource = array.getDrawable(R.styleable.PandaTopHeader_left_resource);
             mBtnLeftText = array.getString(R.styleable.PandaTopHeader_left_text);
@@ -101,6 +107,7 @@ public class PandaTopHeader extends RelativeLayout {
             mBtnLeftDrawablePadding = array.getDimension(R.styleable.PandaTopHeader_left_textDrawablePadding, -1);
 
             mTvTitleTextColor = array.getColor(R.styleable.PandaTopHeader_title_textColor, -1);
+            mTvTitleTextColorStateList = array.getColorStateList(R.styleable.PandaTopHeader_title_textColorStateList);
             mTvTitleTextSize = array.getDimension(R.styleable.PandaTopHeader_title_textSize, -1);
             mTvTitleResource = array.getDrawable(R.styleable.PandaTopHeader_title_resource);
             mTvTitleText = array.getString(R.styleable.PandaTopHeader_title_text);
@@ -108,6 +115,7 @@ public class PandaTopHeader extends RelativeLayout {
             mBtnRightDrawablePadding = array.getDimension(R.styleable.PandaTopHeader_right_textDrawablePadding, -1);
 
             mBtnRightTextColor = array.getColor(R.styleable.PandaTopHeader_right_textColor, -1);
+            mBtnRightTextColorStateList = array.getColorStateList(R.styleable.PandaTopHeader_right_textColorStateList);
             mBtnRightTextSize = array.getDimension(R.styleable.PandaTopHeader_right_textSize, -1);
             mBtnRightResource = array.getDrawable(R.styleable.PandaTopHeader_right_resource);
             mBtnRightText = array.getString(R.styleable.PandaTopHeader_right_text);
@@ -152,6 +160,9 @@ public class PandaTopHeader extends RelativeLayout {
             mBtnLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, mBtnLeftTextSize);
             mBtnLeft.setText(mBtnLeftText);
             mBtnLeft.setTextColor(mBtnLeftTextColor);
+            if (mBtnLeftTextColorStateList != null) {
+                mBtnLeft.setTextColor(mBtnLeftTextColorStateList);
+            }
             mBtnLeft.setBackgroundColor(Color.TRANSPARENT);
             mBtnLeft.setGravity(Gravity.CENTER_VERTICAL);
             if (mBtnLeftResource != null) {
@@ -218,6 +229,9 @@ public class PandaTopHeader extends RelativeLayout {
         if (view == null) {
             mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTvTitleTextSize);
             mTvTitle.setTextColor(mTvTitleTextColor);
+            if (mTvTitleTextColorStateList != null) {
+                mTvTitle.setTextColor(mTvTitleTextColorStateList);
+            }
             mTvTitle.setText(mTvTitleText);
             mTvTitle.setGravity(Gravity.CENTER_VERTICAL);
             if (mTvTitleResource != null) {
@@ -265,6 +279,9 @@ public class PandaTopHeader extends RelativeLayout {
         if (view == null) {
             mBtnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, mBtnRightTextSize);
             mBtnRight.setTextColor(mBtnRightTextColor);
+            if (mBtnRightTextColorStateList != null) {
+                mBtnRight.setTextColor(mBtnRightTextColorStateList);
+            }
             mBtnRight.setText(mBtnRightText);
             mBtnRight.setBackgroundColor(Color.TRANSPARENT);
             mBtnRight.setGravity(Gravity.CENTER_VERTICAL);

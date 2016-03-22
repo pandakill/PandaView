@@ -19,7 +19,7 @@
         app:left_right_padding="5dp"
         app:left_text="返回"
         app:left_textSize="16sp"
-        app:left_textColor="@color/text_color_blue2black_selector"
+        app:left_textColorStateList="@color/text_color_blue2black_selector"
         app:title_resource="@mipmap/icon_logo"
         app:title_textColor="#ffffff"
         app:title_textSize="10sp"

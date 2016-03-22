@@ -43,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams params =
                 new RelativeLayout.LayoutParams(Util.dp2px(MainActivity.this, 170),Util.dp2px(MainActivity.this, 30));
         params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        segmentView.setSegmentText("测试", 0);
+        segmentView.setOnSegmentViewClickListener(new MLYSegmentView.onSegmentViewClickListener() {
+            @Override
+            public void onSegmentViewClick(View v, int position) {
+                if (position == 0) {
+                    Util.displayToastShort(MainActivity.this, "选中了第一个segmentView");
+                } else if (position == 1) {
+                    Util.displayToastShort(MainActivity.this, "选中了第二个segmentView");
+                }
+            }
+        });
         header.addTitleView(segmentView, params);
 
         PandaTopHeader.OnClickHeaderListener listener = new PandaTopHeader.OnClickHeaderListener() {

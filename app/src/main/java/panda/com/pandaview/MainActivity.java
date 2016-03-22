@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
         PandaTopHeader header = (PandaTopHeader) findViewById(R.id.header1);
         header.setLeftButtonId(R.id.button_back);
+        header.setLeftButtonBackground(getResources().getDrawable(R.drawable.header_button_selector));
         header.setTitleDrawablePadding(Util.dp2px(MainActivity.this, 8));
         header.setTitleTextDrawable(R.mipmap.back, -1, -1, -1);
 
-        header.setButtonLeftVisible(View.GONE);
         MLYSegmentView segmentView = new MLYSegmentView(this);
         RelativeLayout.LayoutParams params =
                 new RelativeLayout.LayoutParams(Util.dp2px(MainActivity.this, 170),Util.dp2px(MainActivity.this, 30));

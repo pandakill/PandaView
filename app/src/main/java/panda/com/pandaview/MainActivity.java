@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import panda.com.pandaview.util.Util;
+import panda.com.pandaview.view.MLYSegmentView;
 import panda.com.pandaview.view.PandaTopHeader;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,8 +35,15 @@ public class MainActivity extends AppCompatActivity {
 
         PandaTopHeader header = (PandaTopHeader) findViewById(R.id.header1);
         header.setLeftButtonId(R.id.button_back);
+        header.setTitleDrawablePadding(Util.dp2px(MainActivity.this, 8));
+        header.setTitleTextDrawable(R.mipmap.back, -1, -1, -1);
 
         header.setButtonLeftVisible(View.GONE);
+        MLYSegmentView segmentView = new MLYSegmentView(this);
+        RelativeLayout.LayoutParams params =
+                new RelativeLayout.LayoutParams(Util.dp2px(MainActivity.this, 170),Util.dp2px(MainActivity.this, 30));
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        header.addTitleView(segmentView, params);
 
         PandaTopHeader.OnClickHeaderListener listener = new PandaTopHeader.OnClickHeaderListener() {
             @Override

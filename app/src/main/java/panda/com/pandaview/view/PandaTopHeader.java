@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.ImageFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
@@ -21,7 +22,8 @@ import panda.com.pandaview.R;
 /**
  * Created by panda on 2016/2/20:9:31.
  *
- * 顶部标题栏view
+ * version: V0.2
+ * contribute: 顶部标题栏view,默认的是三个view,可自定义设置view进行添加,具体可以参照mainActivity.java的例子演示
  */
 public class PandaTopHeader extends RelativeLayout {
 
@@ -37,6 +39,7 @@ public class PandaTopHeader extends RelativeLayout {
 
     private static int TYPE_TEXTVIEW = 300;
     private static int TYPE_IMAGEVIEW = 301;
+    private static int TYPE_SELFVIEW = 302;
 
     private Context mContext;
 
@@ -125,111 +128,200 @@ public class PandaTopHeader extends RelativeLayout {
         mBtnRight = new TextView(context);
         mImgBtnRight = new ImageView(context);
 
+        mBtnLeftState = STATE_GONE;
+        mTitleState = STATE_GONE;
+        mBtnRightState = STATE_GONE;
+
         setViewContribute();
 
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void setViewContribute() {
+        addLeftView(null);
+        addTitleView(null, null);
+        addRightView(null);
+    }
 
-        mBtnLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, mBtnLeftTextSize);
-        mBtnLeft.setText(mBtnLeftText);
-        mBtnLeft.setTextColor(mBtnLeftTextColor);
-        mBtnLeft.setBackgroundColor(Color.TRANSPARENT);
-        mBtnLeft.setGravity(Gravity.CENTER_VERTICAL);
+    public void addLeftView(View view) {
         LayoutParams leftParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         leftParams.addRule(ALIGN_PARENT_LEFT, TRUE);
         leftParams.addRule(CENTER_VERTICAL, TRUE);
-        if (mBtnLeftResource != null) {
-            mImgBtnLeft.setImageDrawable(mBtnLeftResource);
-            addView(mImgBtnLeft, leftParams);
-            mBtnLeftType = TYPE_IMAGEVIEW;
-            mImgBtnLeft.setPadding((int) mPadding, 0, (int) mPadding, 0);
-            mImgBtnLeft.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onClickHeaderListener != null) {
-                        onClickHeaderListener.onClick(v, HEADER_LEFT, mBtnLeftType);
-                    }
-                }
-            });
-        } else {
-            if (mBtnLeftDrawable != null) {
-                mBtnLeftDrawable.setBounds(0, 0, mBtnLeftDrawable.getMinimumWidth(), mBtnLeftDrawable.getMinimumHeight());
-                mBtnLeft.setCompoundDrawables(mBtnLeftDrawable, null, null, null);
-                mBtnLeft.setCompoundDrawablePadding((int) mBtnLeftDrawablePadding);
-            }
-            mBtnLeft.setPadding((int) mPadding, 0, (int) mPadding, 0);
-            mBtnLeft.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onClickHeaderListener != null) {
-                        onClickHeaderListener.onClick(v, HEADER_LEFT, mBtnLeftType);
-                    }
-                }
-            });
-            mBtnLeftType = TYPE_TEXTVIEW;
-            addView(mBtnLeft, leftParams);
-        }
-        mBtnLeftState = VISIBLE;
 
-        mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTvTitleTextSize);
-        mTvTitle.setTextColor(mTvTitleTextColor);
-        mTvTitle.setText(mTvTitleText);
-        mTvTitle.setGravity(Gravity.CENTER_VERTICAL);
+        if (view == null) {
+            mBtnLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, mBtnLeftTextSize);
+            mBtnLeft.setText(mBtnLeftText);
+            mBtnLeft.setTextColor(mBtnLeftTextColor);
+            mBtnLeft.setBackgroundColor(Color.TRANSPARENT);
+            mBtnLeft.setGravity(Gravity.CENTER_VERTICAL);
+            if (mBtnLeftResource != null) {
+                mImgBtnLeft.setImageDrawable(mBtnLeftResource);
+                addView(mImgBtnLeft, leftParams);
+                mBtnLeftType = TYPE_IMAGEVIEW;
+                mBtnLeftState = STATE_VISIBLE;
+                mImgBtnLeft.setPadding((int) mPadding, 0, (int) mPadding, 0);
+                mImgBtnLeft.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onClickHeaderListener != null) {
+                            onClickHeaderListener.onClick(v, HEADER_LEFT, mBtnLeftType);
+                        }
+                    }
+                });
+            } else {
+                if (mBtnLeftDrawable != null) {
+                    mBtnLeftDrawable.setBounds(0, 0, mBtnLeftDrawable.getMinimumWidth(), mBtnLeftDrawable.getMinimumHeight());
+                    mBtnLeft.setCompoundDrawables(mBtnLeftDrawable, null, null, null);
+                    mBtnLeft.setCompoundDrawablePadding((int) mBtnLeftDrawablePadding);
+                }
+                mBtnLeft.setPadding((int) mPadding, 0, (int) mPadding, 0);
+                mBtnLeft.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onClickHeaderListener != null) {
+                            onClickHeaderListener.onClick(v, HEADER_LEFT, mBtnLeftType);
+                        }
+                    }
+                });
+                mBtnLeftType = TYPE_TEXTVIEW;
+                mBtnLeftState = STATE_VISIBLE;
+                addView(mBtnLeft, leftParams);
+            }
+        } else {
+            if (mBtnLeftState != STATE_GONE) {
+                if (mBtnLeftType == TYPE_TEXTVIEW) {
+                    mBtnLeft.setVisibility(GONE);
+                } else if (mBtnLeftType == TYPE_IMAGEVIEW) {
+                    mImgBtnLeft.setVisibility(GONE);
+                }
+            }
+
+            if (view.getVisibility() == GONE) {
+                mBtnLeftState = STATE_GONE;
+            } else if (view.getVisibility() == INVISIBLE) {
+                mBtnLeftState = STATE_INVISIBLE;
+            } else if (view.getVisibility() == VISIBLE) {
+                mBtnLeftState = STATE_VISIBLE;
+            }
+
+            mBtnLeftType = TYPE_SELFVIEW;
+
+            addView(view, leftParams);
+        }
+    }
+
+    public void addTitleView(View view, LayoutParams params) {
         LayoutParams titleParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         titleParams.addRule(CENTER_IN_PARENT, TRUE);
         titleParams.addRule(CENTER_VERTICAL, TRUE);
-        if (mTvTitleResource != null) {
-            mImgTitle.setImageDrawable(mTvTitleResource);
-            mTitleType = TYPE_IMAGEVIEW;
-            addView(mImgTitle, titleParams);
-        } else {
-            mTitleType = TYPE_TEXTVIEW;
-            addView(mTvTitle, titleParams);
-        }
-        mTitleState = VISIBLE;
 
-        mBtnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, mBtnRightTextSize);
-        mBtnRight.setTextColor(mBtnRightTextColor);
-        mBtnRight.setText(mBtnRightText);
-        mBtnRight.setBackgroundColor(Color.TRANSPARENT);
-        mBtnRight.setGravity(Gravity.CENTER_VERTICAL);
+        if (view == null) {
+            mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTvTitleTextSize);
+            mTvTitle.setTextColor(mTvTitleTextColor);
+            mTvTitle.setText(mTvTitleText);
+            mTvTitle.setGravity(Gravity.CENTER_VERTICAL);
+            if (mTvTitleResource != null) {
+                mImgTitle.setImageDrawable(mTvTitleResource);
+                mTitleType = TYPE_IMAGEVIEW;
+                mTitleState = STATE_VISIBLE;
+                addView(mImgTitle, titleParams);
+            } else {
+                mTitleType = TYPE_TEXTVIEW;
+                mTitleState = STATE_VISIBLE;
+                addView(mTvTitle, titleParams);
+            }
+        } else {
+            if (mTitleState != STATE_GONE) {
+                if (mTitleType == TYPE_TEXTVIEW) {
+                    mTvTitle.setVisibility(GONE);
+                } else if (mTitleType == TYPE_IMAGEVIEW) {
+                    mImgTitle.setVisibility(GONE);
+                }
+            }
+
+            if (view.getVisibility() == GONE) {
+                mTitleState = STATE_GONE;
+            } else if (view.getVisibility() == INVISIBLE) {
+                mTitleState = STATE_INVISIBLE;
+            } else if (view.getVisibility() == VISIBLE) {
+                mTitleState = STATE_VISIBLE;
+            }
+
+            mTitleType = TYPE_SELFVIEW;
+
+            if (params == null) {
+                addView(view, titleParams);
+            } else {
+                addView(view, params);
+            }
+        }
+    }
+
+    public void addRightView(View view) {
         LayoutParams rightParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         rightParams.addRule(ALIGN_PARENT_RIGHT, TRUE);
         rightParams.addRule(CENTER_VERTICAL, TRUE);
-        if (mBtnRightResource != null) {
-            mImgBtnRight.setImageDrawable(mBtnRightResource);
-            mBtnRightType = TYPE_IMAGEVIEW;
-            mImgBtnRight.setPadding((int) mPadding, 0, (int) mPadding, 0);
-            mImgBtnRight.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onClickHeaderListener != null) {
-                        onClickHeaderListener.onClick(v, HEADER_RIGHT, mBtnRightType);
+
+        if (view == null) {
+            mBtnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, mBtnRightTextSize);
+            mBtnRight.setTextColor(mBtnRightTextColor);
+            mBtnRight.setText(mBtnRightText);
+            mBtnRight.setBackgroundColor(Color.TRANSPARENT);
+            mBtnRight.setGravity(Gravity.CENTER_VERTICAL);
+            if (mBtnRightResource != null) {
+                mImgBtnRight.setImageDrawable(mBtnRightResource);
+                mBtnRightState = STATE_VISIBLE;
+                mBtnRightType = TYPE_IMAGEVIEW;
+                mImgBtnRight.setPadding((int) mPadding, 0, (int) mPadding, 0);
+                mImgBtnRight.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onClickHeaderListener != null) {
+                            onClickHeaderListener.onClick(v, HEADER_RIGHT, mBtnRightType);
+                        }
                     }
+                });
+                addView(mImgBtnRight, rightParams);
+            } else {
+                if (mBtnRightDrawable != null) {
+                    mBtnRightDrawable.setBounds(0, 0, mBtnRightDrawable.getMinimumWidth(), mBtnRightDrawable.getMinimumHeight());
+                    mBtnRight.setCompoundDrawables(null, null, mBtnRightDrawable, null);
+                    mBtnRight.setCompoundDrawablePadding((int) mBtnRightDrawablePadding);
                 }
-            });
-            addView(mImgBtnRight, rightParams);
-        } else {
-            if (mBtnRightDrawable != null) {
-                mBtnRightDrawable.setBounds(0, 0, mBtnRightDrawable.getMinimumWidth(), mBtnRightDrawable.getMinimumHeight());
-                mBtnRight.setCompoundDrawables(null, null, mBtnRightDrawable, null);
-                mBtnRight.setCompoundDrawablePadding((int) mBtnRightDrawablePadding);
+                mBtnRightState = STATE_VISIBLE;
+                mBtnRightType = TYPE_TEXTVIEW;
+                mBtnRight.setPadding((int) mPadding, 0, (int) mPadding, 0);
+                mBtnRight.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onClickHeaderListener != null) {
+                            onClickHeaderListener.onClick(v, HEADER_RIGHT, mBtnRightType);
+                        }
+                    }
+                });
+                addView(mBtnRight, rightParams);
             }
-            mBtnRightType = TYPE_TEXTVIEW;
-            mBtnRight.setPadding((int) mPadding, 0, (int) mPadding, 0);
-            mBtnRight.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onClickHeaderListener != null) {
-                        onClickHeaderListener.onClick(v, HEADER_RIGHT, mBtnRightType);
-                    }
+        } else {
+            if (mBtnRightState != STATE_GONE) {
+                if (mBtnRightType == TYPE_TEXTVIEW) {
+                    mTvTitle.setVisibility(GONE);
+                } else if (mBtnRightType == TYPE_IMAGEVIEW) {
+                    mImgTitle.setVisibility(GONE);
                 }
-            });
-            addView(mBtnRight, rightParams);
+            }
+
+            if (view.getVisibility() == GONE) {
+                mBtnRightState = STATE_GONE;
+            } else if (view.getVisibility() == INVISIBLE) {
+                mBtnRightState = STATE_INVISIBLE;
+            } else if (view.getVisibility() == VISIBLE) {
+                mBtnRightState = STATE_VISIBLE;
+            }
+
+            mBtnRightType = TYPE_SELFVIEW;
+
+            addView(view, rightParams);
         }
-        mBtnRightState = VISIBLE;
     }
 
     /**
@@ -370,5 +462,67 @@ public class PandaTopHeader extends RelativeLayout {
         if (where != null) {
             mTvTitle.setEllipsize(where);
         }
+    }
+
+    /**
+     * 设置标题的左上右下drawable
+     *
+     * @param leftId leftDrawable resource's id
+     * @param topId topDrawable resource's id
+     * @param rightId rightDrawable resource's id
+     * @param bottomId bottomDrawable resource's id
+     */
+    public void setTitleTextDrawable(int leftId, int topId, int rightId, int bottomId) {
+        if (mTvTitle == null
+                || mTvTitle.getVisibility() != VISIBLE) {
+            return;
+        }
+
+        Drawable leftDrawable = null;
+        Drawable topDrawable = null;
+        Drawable rightDrawable = null;
+        Drawable bottomDrawable = null;
+
+        if (leftId != -1) {
+            leftDrawable = getResources().getDrawable(leftId);
+        }
+        if (topId != -1) {
+            topDrawable = getResources().getDrawable(topId);
+        }
+        if (rightId != -1) {
+            rightDrawable = getResources().getDrawable(rightId);
+        }
+        if (bottomId != -1) {
+            bottomDrawable = getResources().getDrawable(bottomId);
+        }
+
+        if (leftDrawable != null) {
+            leftDrawable.setBounds(0, 0, leftDrawable.getMinimumWidth(), leftDrawable.getMinimumHeight());
+        }
+        if (topDrawable != null) {
+            topDrawable.setBounds(0, 0, topDrawable.getMinimumWidth(), topDrawable.getMinimumHeight());
+        }
+        if (rightDrawable != null) {
+            rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
+        }
+        if (bottomDrawable != null) {
+            bottomDrawable.setBounds(0, 0, bottomDrawable.getMinimumWidth(), bottomDrawable.getMinimumHeight());
+        }
+
+        mTvTitle.setCompoundDrawables(leftDrawable, topDrawable, rightDrawable, bottomDrawable);
+    }
+
+    /**
+     * 设置标题栏的drawable边距
+     * 如果标题被隐藏或者标题不存在,则设置无效
+     *
+     * @param padding 需要设置的边距padding
+     */
+    public void setTitleDrawablePadding(int padding) {
+        if (mTvTitle == null || mTvTitle.getVisibility() != VISIBLE) {
+            return;
+        }
+
+        mTvTitle.setCompoundDrawablePadding(padding);
     }
 }

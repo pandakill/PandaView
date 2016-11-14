@@ -5,17 +5,27 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import panda.com.pandaview.util.Util;
 import panda.com.pandaview.view.MLYSegmentView;
+import panda.com.pandaview.view.PandaBottomSelector;
 import panda.com.pandaview.view.PandaTopHeader;
 
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList<String> arrayList = new ArrayList<>();
+
+    PandaBottomSelector bottomSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+        arrayList.add("第一个选项");
+        arrayList.add("第二个选项");
+        arrayList.add("第三个选项");
+
+        bottomSelector = new PandaBottomSelector(MainActivity.this, arrayList);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view, int position, int viewType) {
                 if (position == PandaTopHeader.HEADER_LEFT) {
                     Toast.makeText(MainActivity.this, "点击左侧", Toast.LENGTH_SHORT).show();
+                    if (bottomSelector.isShowing()) {
+                        bottomSelector.dismiss();
+                    } else {
+                        bottomSelector.showAtLocation(MainActivity.this.findViewById(R.id.header1), Gravity.BOTTOM, 0, 0);
+                    }
+
+                    bottomSelector.setWidth(WindowManager.LayoutParams.FILL_PARENT);
+                    bottomSelector.setHeight(WindowManager.LayoutParams.FILL_PARENT);
+
+                    bottomSelector.setFocusable(true);
+
+                    Log.d(MainActivity.class.getSimpleName(), "bottomSelector.isShowing = " + bottomSelector.isShowing());
+                    Log.d(MainActivity.class.getSimpleName(), "bottomSelector.getHeight = " + bottomSelector.getHeight());
+                    Log.d(MainActivity.class.getSimpleName(), "bottomSelector.getWidth = " + bottomSelector.getWidth());
                 } else if (position == PandaTopHeader.HEADER_RIGHT) {
                     Toast.makeText(MainActivity.this, "点击右侧", Toast.LENGTH_SHORT).show();
                 }
@@ -68,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
         };
         header.setOnClickHeaderListener(listener);
         header.setRightButtonBackground(getResources().getDrawable(R.drawable.header_button_selector));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!bottomSelector.isShowing()) {
+            bottomSelector.dismiss();
+        }
     }
 
     @Override
